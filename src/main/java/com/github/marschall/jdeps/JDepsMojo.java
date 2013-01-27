@@ -89,6 +89,9 @@ public class JDepsMojo extends AbstractMojo {
    */
   @Parameter(defaultValue = "false")
   private boolean version;
+  
+  @Parameter(defaultValue = "${project.outputDirectory}", readonly = true)
+  private String outputDirectory;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -110,6 +113,7 @@ public class JDepsMojo extends AbstractMojo {
     addProfileArg(cmd);
     addRecursiveArg(cmd);
     addVersionArg(cmd);
+    addOutputArg(cmd);
 
     this.executeJDepsCommandLine(cmd);
   }
@@ -186,6 +190,12 @@ public class JDepsMojo extends AbstractMojo {
       arg.setValue(name);
       cmd.addArg(arg);
     }
+  }
+  
+  private void addOutputArg(Commandline cmd) {
+    Arg arg = cmd.createArg();
+    arg.setValue(this.outputDirectory);
+    cmd.addArg(arg);
   }
 
   /**
