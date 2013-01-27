@@ -56,12 +56,10 @@
       <version>3.0.4</version>
       <scope>provided</scope>
     </dependency>
-    <!-- generated help mojo has a dependency to plexus-utils -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
       <version>3.0.10</version>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
