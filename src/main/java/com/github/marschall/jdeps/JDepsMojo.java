@@ -1,14 +1,19 @@
 package com.github.marschall.jdeps;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -17,7 +22,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.toolchain.DefaultToolchain;
 import org.apache.maven.toolchain.Toolchain;
+import org.apache.maven.toolchain.ToolchainManager;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Arg;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -31,14 +38,19 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 @Mojo(name = "jdeps",
   threadSafe = true,
-  requiresDependencyCollection = ResolutionScope.COMPILE)
+  requiresDependencyResolution = ResolutionScope.COMPILE)
 public class JDepsMojo extends AbstractMojo {
 
   @Component
-  private Toolchain toolChain;
+//  private Toolchain toolChain;
+//  private JavaToolChain toolChain;
+  private ToolchainManager toolchainManager;
   
   @Component
   private MavenProject project;
+  
+  @Component
+  private MavenSession session;
   
   /**
    * Print dependency summary only.
@@ -90,7 +102,7 @@ public class JDepsMojo extends AbstractMojo {
   @Parameter(defaultValue = "false")
   private boolean version;
   
-  @Parameter(defaultValue = "${project.outputDirectory}", readonly = true)
+  @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true)
   private String outputDirectory;
 
   @Override
@@ -129,22 +141,25 @@ public class JDepsMojo extends AbstractMojo {
   }
 
   private void addClassPathArg(Commandline cmd) throws MojoFailureException {
-    try {
-      List<String> classpathElements = this.project.getCompileClasspathElements();
-      if (!classpathElements.isEmpty()) {
-        String pathSeparator = SystemUtils.PATH_SEPARATOR;
-        if (pathSeparator == null) {
-          throw new MojoFailureException("Can't read path separator");
-          
+    Set<Artifact> dependencyArtifacts = this.project.getDependencyArtifacts();
+    if (!dependencyArtifacts.isEmpty()) {
+      List<String> fileNames = new ArrayList<>(dependencyArtifacts.size());
+      for (Artifact artifact : dependencyArtifacts) {
+        File file = artifact.getFile();
+        if (file != null) {
+          fileNames.add(file.getAbsolutePath());
         }
-        String classPath = StringUtils.join(classpathElements.iterator(), pathSeparator);
-        Arg classPathArg = cmd.createArg();
-        classPathArg.setValue("--classpath=" + classPath);
-        cmd.addArg(classPathArg);
-        
       }
-    } catch (DependencyResolutionRequiredException e) {
-      throw new MojoFailureException("Dependency resolution required", e );
+      String pathSeparator = System.getProperty("path.separator");
+      if (pathSeparator == null) {
+        throw new MojoFailureException("Can't read path separator");
+
+      }
+      String classPath = StringUtils.join(fileNames.iterator(), pathSeparator);
+      Arg classPathArg = cmd.createArg();
+      classPathArg.setValue("--classpath=" + classPath);
+      cmd.addArg(classPathArg);
+
     }
   }
 
@@ -251,8 +266,12 @@ public class JDepsMojo extends AbstractMojo {
    * @throws IOException if not found
    */
   private String getJdepsExecutable() throws IOException {
-    String jdepsExecutable = toolChain.findTool("jdeps");
-
+    String jdepsExecutable = null;
+    Toolchain toolchain = this.toolchainManager.getToolchainFromBuildContext(DefaultToolchain.KEY_TYPE, this.session);
+    
+    if (toolchain != null) {
+      jdepsExecutable = toolchain.findTool("jdeps");
+    }
     String jdepsCommand = "jdeps" + ( SystemUtils.IS_OS_WINDOWS ? ".exe" : "" );
 
     Path jdepsExe;
