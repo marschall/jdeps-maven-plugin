@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.marschall</groupId>
-  <artifactId>maven-jdeps-plugin</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>jdeps-maven-plugin</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
   <inceptionYear>2013</inceptionYear>
   <url>https://github.com/marschall/maven-jdeps-plugin</url>
   <packaging>maven-plugin</packaging>
@@ -126,7 +126,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.0</version>
+          <version>3.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
