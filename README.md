@@ -3,6 +3,8 @@ Maven jdeps Plugin
 
 Maven plugin that runs the Java 8 `jdeps` tool.
 
+Currently the tool is only included with Java 8 so `JAVA_HOME` needs to point to a Java 8 installation in order to run this plugin.
+
 Options
 -------
 
