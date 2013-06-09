@@ -9,6 +9,9 @@
   <packaging>maven-plugin</packaging>
 
   <name>Maven jdeps plugin</name>
+  <description>
+    Runs the jdeps dependency analysis tool.
+  </description>
   
   <developers>
     <developer>
