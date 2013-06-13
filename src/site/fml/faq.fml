@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/FML/1.0.1"
+  xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+  id="FAQ" title="Frequently Asked Questions">
+  <part id="General">
+    <faq id="Why does this plugin work only with Java 8">
+      <question>Why does this plugin work only with Java 8?</question>
+      <answer>
+        <p>
+          The jdeps exeutable only ships with JDK 8.
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>
