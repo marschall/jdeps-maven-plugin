@@ -13,6 +13,10 @@
     Runs the jdeps dependency analysis tool.
   </description>
   
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+  
   <developers>
     <developer>
       <id>marschall</id>
@@ -108,6 +112,12 @@
               <goal>helpmojo</goal>
             </goals>
           </execution>
+          <execution>
+            <id>generate-descriptor</id>
+            <goals>
+              <goal>descriptor</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -201,9 +211,24 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>3.3</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
+  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>${maven.plugin.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
   
   <profiles>
     <profile>
