@@ -1,0 +1,36 @@
+ ------
+ Introduction
+ ------
+ Philippe Marschall
+ ------
+ 2013-01-26
+ ------
+
+jdeps Maven Plugin
+
+ The jdeps Maven Plugin jdeps the Javadoc tool to report package dependencies for the specified project.
+ For more information about the project, please refer to
+ {{{https://github.com/marschall/jdeps-maven-plugin}GitHub page}}.
+
+ When no configuration values are set, the plugin sets default values instead and then executes the jdeps tool.
+
+* Goals Overview
+
+   The jdeps Plugin has only a single goal:
+
+   * {{{./jdeps-mojo.html}jdeps:jdeps}} reports the jdeps report for the project. It executes the standard
+     jdeps tool and supports the parameters used by the tool.
+
+   []
+
+* Usage
+
+  General instructions on how to use the jdeps Plugin can be found on the {{{./usage.html}usage page}}.
+
+  In case you still have questions regarding the plugin's usage, please have a look at the {{{./faq.html}FAQ}}.
+
+  If you feel like the plugin is missing a feature or has a defect, you can fill a feature request or bug report in our
+  {{{https://github.com/marschall/jdeps-maven-plugin/issues}issue tracker}} or submit a
+  {{{https://github.com/marschall/jdeps-maven-plugin/pulls}pull request}}.
+
+   []
