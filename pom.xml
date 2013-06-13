@@ -35,6 +35,11 @@
     </license>
   </licenses>
   
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/marschall/jdeps-maven-plugin/issues</url>
+  </issueManagement>
+  
   <scm>
     <connection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</developerConnection>
