@@ -12,5 +12,13 @@
         </p>
       </answer>
     </faq>
+    <faq id="Whats the advantage of running jdpes through this plguin">
+      <question>What's the advantage of running jdeps through this plguin?</question>
+      <answer>
+        <p>
+          This plugin automatically sets up the classpath for jdeps.
+        </p>
+      </answer>
+    </faq>
   </part>
 </faqs>
