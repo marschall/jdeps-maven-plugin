@@ -17,15 +17,14 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.toolchain.DefaultToolchain;
 import org.apache.maven.toolchain.Toolchain;
 import org.apache.maven.toolchain.ToolchainManager;
 import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.Arg;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -37,12 +36,12 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 @Mojo(name = "jdeps",
   threadSafe = true,
+  requiresProject = true,
+  defaultPhase = LifecyclePhase.VERIFY,
   requiresDependencyResolution = ResolutionScope.COMPILE)
 public class JDepsMojo extends AbstractMojo {
 
   @Component
-//  private Toolchain toolChain;
-//  private JavaToolChain toolChain;
   private ToolchainManager toolchainManager;
   
   @Component
@@ -54,20 +53,20 @@ public class JDepsMojo extends AbstractMojo {
   /**
    * Print dependency summary only.
    */
-  @Parameter(defaultValue = "false")
+  @Parameter(defaultValue = "false", property = "jdeps.summary")
   private boolean summary;
   
   /**
    * Print additional information.
    */
-  @Parameter(defaultValue = "false")
+  @Parameter(defaultValue = "false", property = "jdeps.verbose")
   private boolean verbose;
   
   /**
    * Print package-level or class-level dependencies
    * Valid levels are: "package" and "class".
    */
-  @Parameter(alias = "verbose-level")
+  @Parameter(alias = "verbose-level", property = "jdeps.verboseLevel")
   private String verboseLevel;
   
   /**
@@ -80,29 +79,29 @@ public class JDepsMojo extends AbstractMojo {
    * Restrict analysis to packages matching pattern.
    * ("packages" and "regex" are exclusive)
    */
-  @Parameter
+  @Parameter(property = "jdeps.regex")
   private String regex;
   
   /**
    * Show profile or the file containing a package.
    */
-  @Parameter(defaultValue = "false")
+  @Parameter(defaultValue = "false", property = "jdeps.profile")
   private boolean profile;
   
   /**
    * Recursively traverse all dependencies.
    */
-  @Parameter(defaultValue = "false")
+  @Parameter(defaultValue = "false", property = "jdeps.recursive")
   private boolean recursive;
   
   /**
    * Version information.
    */
-  @Parameter(defaultValue = "false")
+  @Parameter(defaultValue = "false", property = "jdeps.version")
   private boolean version;
   
-  @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true)
-  private String outputDirectory;
+  @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true, property = "jdeps.outputDirectory")
+  private File outputDirectory;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -132,9 +131,8 @@ public class JDepsMojo extends AbstractMojo {
   private void addPackagesArg(Commandline cmd) {
     if (this.packages != null && !this.packages.isEmpty()) {
       for (String each : this.packages) {
-        Arg packageArg = cmd.createArg();
-        packageArg.setValue("--package=" + each);
-        cmd.addArg(packageArg);
+        cmd.createArg().setValue("-package");
+        cmd.createArg().setValue(each);
       }
     }
   }
@@ -155,68 +153,59 @@ public class JDepsMojo extends AbstractMojo {
 
       }
       String classPath = StringUtils.join(fileNames.iterator(), pathSeparator);
-      Arg classPathArg = cmd.createArg();
-      classPathArg.setValue("--classpath=" + classPath);
-      cmd.addArg(classPathArg);
-
+      cmd.createArg().setValue("-classpath");
+      cmd.createArg().setValue(classPath);
     }
   }
 
   private void addVerboseLevelArg(Commandline cmd) {
     if (this.verboseLevel != null) {
-      Arg verboseLevelArg = cmd.createArg();
-      verboseLevelArg.setValue("--verbose-level=" + this.verboseLevel);
-      cmd.addArg(verboseLevelArg);
+      cmd.createArg().setValue("-verbose:" + this.verboseLevel);
     }
   }
   
   private void addRegexArg(Commandline cmd) {
     if (this.regex != null) {
-      Arg regexArg = cmd.createArg();
-      regexArg.setValue("--regex=" + this.regex);
-      cmd.addArg(regexArg);
+      cmd.createArg().setValue("-regex");
+      cmd.createArg().setValue(this.regex);
     }
   }
 
   private void addVerboseArg(Commandline cmd) {
-    addBooleanArg(this.verbose, "--verbose", cmd);
+    addBooleanArg(this.verbose, "-verbose", cmd);
   }
 
   private void addSummaryArg(Commandline cmd) {
-    addBooleanArg(this.summary, "--summary", cmd);
+    addBooleanArg(this.summary, "-summary", cmd);
   }
   
   private void addProfileArg(Commandline cmd) {
-    addBooleanArg(this.profile, "--profile", cmd);
+    addBooleanArg(this.profile, "-profile", cmd);
   }
   
   private void addRecursiveArg(Commandline cmd) {
-    addBooleanArg(this.recursive, "--recursive", cmd);
+    addBooleanArg(this.recursive, "-recursive", cmd);
   }
   
   private void addVersionArg(Commandline cmd) {
-    addBooleanArg(this.version, "--version", cmd);
+    addBooleanArg(this.version, "-version", cmd);
   }
   
   private void addBooleanArg(boolean flag, String name, Commandline cmd) {
     if (flag) {
-      Arg arg = cmd.createArg();
-      arg.setValue(name);
-      cmd.addArg(arg);
+      cmd.createArg().setValue(name);
     }
   }
   
   private void addOutputArg(Commandline cmd) {
-    Arg arg = cmd.createArg();
-    arg.setValue(this.outputDirectory);
-    cmd.addArg(arg);
+    cmd.createArg().setFile(this.outputDirectory);
   }
 
   /**
    * Execute the JDeps command line
    *
    * @param cmd not null
-   * @throws MavenReportException if any errors occur
+   * @throws MojoFailureException if any errors occur
    */
   private void executeJDepsCommandLine(Commandline cmd) throws MojoFailureException {
 
@@ -228,8 +217,8 @@ public class JDepsMojo extends AbstractMojo {
       int exitCode = CommandLineUtils.executeCommandLine(cmd, out, err);
 
       String output = StringUtils.isEmpty( out.getOutput() ) ? null : '\n' + out.getOutput().trim();
-      if ( StringUtils.isNotEmpty( output ) ) {
-        getLog().info( output );
+      if (StringUtils.isNotEmpty(output)) {
+        getLog().info(output);
       }
 
       if (exitCode != 0) {
@@ -246,15 +235,10 @@ public class JDepsMojo extends AbstractMojo {
 
         throw new MojoFailureException(msg.toString());
       }
-
-      if (StringUtils.isNotEmpty(output)) {
-        getLog().info(output);
-      }
     }
     catch (CommandLineException e) {
       throw new MojoFailureException("Unable to execute jdeps command: " + e.getMessage(), e);
     }
-
   }
 
   /**
@@ -266,9 +250,10 @@ public class JDepsMojo extends AbstractMojo {
    */
   private String getJdepsExecutable() throws IOException {
     String jdepsExecutable = null;
-    Toolchain toolchain = this.toolchainManager.getToolchainFromBuildContext(DefaultToolchain.KEY_TYPE, this.session);
+    Toolchain toolchain = this.toolchainManager.getToolchainFromBuildContext("jdk", this.session);
     
     if (toolchain != null) {
+      getLog().info("Toolchain in jdeps-maven-plugin: " + toolchain);
       jdepsExecutable = toolchain.findTool("jdeps");
     }
     String jdepsCommand = "jdeps" + ( SystemUtils.IS_OS_WINDOWS ? ".exe" : "" );
@@ -326,7 +311,7 @@ public class JDepsMojo extends AbstractMojo {
     }
 
     if (!Files.exists(jdepsExe) || !Files.isRegularFile(jdepsExe)) {
-      throw new IOException( "The jdepts executable '" + jdepsExe + "' doesn't exist or is not a file. Verify the JAVA_HOME environment variable." );
+      throw new IOException( "The jdeps executable '" + jdepsExe + "' doesn't exist or is not a file. Verify the JAVA_HOME environment variable." );
     }
 
     return jdepsExe.toAbsolutePath().toString();
