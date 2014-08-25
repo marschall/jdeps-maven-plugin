@@ -15,7 +15,7 @@ Usage
       <plugin>
         <groupId>com.github.marschall</groupId>
         <artifactId>jdeps-maven-plugin</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.2</version>
         <!-- optionally any configuration -->
         <configuration>
           <profile>true</profile>
