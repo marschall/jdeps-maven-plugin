@@ -35,46 +35,61 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Philippe Marschall
  */
 @Mojo(name = "jdeps",
-  threadSafe = true,
-  requiresProject = true,
-  defaultPhase = LifecyclePhase.VERIFY,
-  requiresDependencyResolution = ResolutionScope.COMPILE)
+threadSafe = true,
+requiresProject = true,
+defaultPhase = LifecyclePhase.VERIFY,
+requiresDependencyResolution = ResolutionScope.COMPILE
+    )
 public class JDepsMojo extends AbstractMojo {
 
   @Component
   private ToolchainManager toolchainManager;
-  
-  @Component
+
+  //  @Parameter(name = "${project}", readonly = true)
+  @Component // deprecated for whatever reason but @Parameter doesn't work
   private MavenProject project;
-  
-  @Component
+
+  //  @Parameter(name = "${session}", readonly = true)
+  @Component // deprecated for whatever reason but @Parameter doesn't work
   private MavenSession session;
-  
+
   /**
    * Print dependency summary only.
    */
   @Parameter(defaultValue = "false", property = "jdeps.summary")
   private boolean summary;
+
+  /**
+   * Finds class-level dependences in JDK internal APIs.
+   */
+  @Parameter(defaultValue = "false", property = "jdeps.jdkInternals")
+  private boolean jdkInternals;
   
+  /**
+   * Restricts analysis to APIs.
+   */
+  @Parameter(defaultValue = "false", property = "jdeps.apiOnly")
+  private boolean apiOnly;
+
   /**
    * Print additional information.
    */
   @Parameter(defaultValue = "false", property = "jdeps.verbose")
   private boolean verbose;
-  
+
   /**
    * Print package-level or class-level dependencies
    * Valid levels are: "package" and "class".
    */
   @Parameter(alias = "verbose-level", property = "jdeps.verboseLevel")
   private String verboseLevel;
-  
+
   /**
    * Restrict analysis to classes in these packages.
    */
   @Parameter
   private List<String> packages;
-  
+
   /**
    * Restrict analysis to packages matching pattern.
    * ("packages" and "regex" are exclusive)
@@ -83,24 +98,37 @@ public class JDepsMojo extends AbstractMojo {
   private String regex;
   
   /**
+   * Restricts analysis to classes matching pattern.
+   * This option filters the list of classes to be analyzed.
+   */
+  @Parameter(property = "jdeps.include")
+  private String include;
+
+  /**
    * Show profile or the file containing a package.
    */
   @Parameter(defaultValue = "false", property = "jdeps.profile")
   private boolean profile;
-  
+
   /**
    * Recursively traverse all dependencies.
    */
   @Parameter(defaultValue = "false", property = "jdeps.recursive")
   private boolean recursive;
-  
+
   /**
    * Version information.
    */
   @Parameter(defaultValue = "false", property = "jdeps.version")
   private boolean version;
+
+  /**
+   * Destination directory for DOT file output.
+   */
+  @Parameter(property = "jdeps.dotOutputDirectory")
+  private File dotOutputDirectory;
   
-  @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true, property = "jdeps.outputDirectory")
+  @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true)
   private File outputDirectory;
 
   @Override
@@ -113,16 +141,21 @@ public class JDepsMojo extends AbstractMojo {
     }
     Commandline cmd = new Commandline();
     cmd.setExecutable(jExecutable);
-    
+
+    addApiOnly(cmd);
+    addClassPathArg(cmd);
+    addDotOutput(cmd);
+    addInclude(cmd);
+    addJdkinternals(cmd);
+    addPackagesArg(cmd);
+    addProfileArg(cmd);
+    addRegexArg(cmd);
+    addRecursiveArg(cmd);
     addSummaryArg(cmd);
     addVerboseArg(cmd);
     addVerboseLevelArg(cmd);
-    addClassPathArg(cmd);
-    addPackagesArg(cmd);
-    addRegexArg(cmd);
-    addProfileArg(cmd);
-    addRecursiveArg(cmd);
     addVersionArg(cmd);
+    
     addOutputArg(cmd);
 
     this.executeJDepsCommandLine(cmd);
@@ -152,9 +185,12 @@ public class JDepsMojo extends AbstractMojo {
         throw new MojoFailureException("Can't read path separator");
 
       }
-      String classPath = StringUtils.join(fileNames.iterator(), pathSeparator);
-      cmd.createArg().setValue("-classpath");
-      cmd.createArg().setValue(classPath);
+      if (!fileNames.isEmpty()) {
+        // jdeps doesn't like an empty classpath
+        String classPath = StringUtils.join(fileNames.iterator(), pathSeparator);
+        cmd.createArg().setValue("-classpath");
+        cmd.createArg().setValue(classPath);
+      }
     }
   }
 
@@ -163,11 +199,25 @@ public class JDepsMojo extends AbstractMojo {
       cmd.createArg().setValue("-verbose:" + this.verboseLevel);
     }
   }
-  
+
   private void addRegexArg(Commandline cmd) {
     if (this.regex != null) {
       cmd.createArg().setValue("-regex");
       cmd.createArg().setValue(this.regex);
+    }
+  }
+  
+  private void addInclude(Commandline cmd) {
+    if (this.include != null) {
+      cmd.createArg().setValue("-regex");
+      cmd.createArg().setValue(this.include);
+    }
+  }
+  
+  private void addDotOutput(Commandline cmd) {
+    if (this.dotOutputDirectory != null) {
+      cmd.createArg().setValue("-dotoutput");
+      cmd.createArg().setFile(this.dotOutputDirectory);
     }
   }
 
@@ -178,25 +228,33 @@ public class JDepsMojo extends AbstractMojo {
   private void addSummaryArg(Commandline cmd) {
     addBooleanArg(this.summary, "-summary", cmd);
   }
+
+  private void addJdkinternals(Commandline cmd) {
+    addBooleanArg(this.jdkInternals, "-jdkinternals", cmd);
+  }
   
+  private void addApiOnly(Commandline cmd) {
+    addBooleanArg(this.apiOnly, "-apionly", cmd);
+  }
+
   private void addProfileArg(Commandline cmd) {
     addBooleanArg(this.profile, "-profile", cmd);
   }
-  
+
   private void addRecursiveArg(Commandline cmd) {
     addBooleanArg(this.recursive, "-recursive", cmd);
   }
-  
+
   private void addVersionArg(Commandline cmd) {
     addBooleanArg(this.version, "-version", cmd);
   }
-  
+
   private void addBooleanArg(boolean flag, String name, Commandline cmd) {
     if (flag) {
       cmd.createArg().setValue(name);
     }
   }
-  
+
   private void addOutputArg(Commandline cmd) {
     cmd.createArg().setFile(this.outputDirectory);
   }
@@ -251,12 +309,12 @@ public class JDepsMojo extends AbstractMojo {
   private String getJdepsExecutable() throws IOException {
     String jdepsExecutable = null;
     Toolchain toolchain = this.toolchainManager.getToolchainFromBuildContext("jdk", this.session);
-    
+
     if (toolchain != null) {
       getLog().info("Toolchain in jdeps-maven-plugin: " + toolchain);
       jdepsExecutable = toolchain.findTool("jdeps");
     }
-    String jdepsCommand = "jdeps" + ( SystemUtils.IS_OS_WINDOWS ? ".exe" : "" );
+    String jdepsCommand = "jdeps" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
 
     Path jdepsExe;
 
@@ -287,11 +345,7 @@ public class JDepsMojo extends AbstractMojo {
     // By default, System.getProperty( "java.home" ) = JRE_HOME and JRE_HOME
     // should be in the JDK_HOME
     // ----------------------------------------------------------------------
-    if ( SystemUtils.IS_OS_MAC_OSX ) {
-      jdepsExe = Paths.get(SystemUtils.getJavaHome().toURI()).resolve("bin").resolve(jdepsCommand);
-    } else {
-      jdepsExe = Paths.get(SystemUtils.getJavaHome().toURI()).getParent().resolve("bin").resolve(jdepsCommand);
-    }
+    jdepsExe = Paths.get(SystemUtils.getJavaHome().toURI()).getParent().resolve("bin").resolve(jdepsCommand);
 
     // ----------------------------------------------------------------------
     // Try to find jdepsExe from JAVA_HOME environment variable
@@ -302,12 +356,13 @@ public class JDepsMojo extends AbstractMojo {
       if (StringUtils.isEmpty(javaHome)) {
         throw new IOException( "The environment variable JAVA_HOME is not correctly set." );
       }
-      Path javaHomePath = Paths.get(javaHome);
+      Path javaHomePath = Paths.get(javaHome).resolve("bin");
+      jdepsExe = javaHomePath.resolve("bin").resolve(jdepsCommand);
+
       if (!Files.exists(jdepsExe) || !Files.isDirectory(jdepsExe)) {
         throw new IOException("The environment variable JAVA_HOME=" + javaHome + " doesn't exist or is not a valid directory." );
       }
 
-      jdepsExe = javaHomePath.resolve("bin").resolve(jdepsCommand);
     }
 
     if (!Files.exists(jdepsExe) || !Files.isRegularFile(jdepsExe)) {
