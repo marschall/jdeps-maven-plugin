@@ -123,7 +123,8 @@ public class JDepsMojo extends AbstractMojo {
   private boolean version;
 
   /**
-   * Destination directory for DOT file output.
+   * Destination directory for DOT file output. Set to something like
+   * ${project.reporting.outputDirectory}/jdeps
    */
   @Parameter(property = "jdeps.dotOutputDirectory")
   private File dotOutputDirectory;

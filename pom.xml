@@ -237,7 +237,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.9.1</version>
+          <version>${maven.scm.plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -251,6 +251,23 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-scm</artifactId>
+        <version>2.6</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-manager-plexus</artifactId>
+        <version>${maven.scm.plugin.version}</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-gitexe</artifactId>
+        <version>${maven.scm.plugin.version}</version>
+      </extension>
+    </extensions>
   </build>
   
   <reporting>
@@ -289,23 +306,6 @@
     <profile>
       <id>create-site</id>
       <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-scm</artifactId>
-        <version>2.6</version>
-      </extension>
-      <extension>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-manager-plexus</artifactId>
-        <version>2.6</version>
-      </extension>
-      <extension>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-gitexe</artifactId>
-        <version>2.6</version>
-      </extension>
-    </extensions>
       </build>
     </profile>
   </profiles>
@@ -315,6 +315,7 @@
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <mavenVersion>3.0.5</mavenVersion>
     <maven.plugin.version>3.3</maven.plugin.version>
+    <maven.scm.plugin.version>1.9.1</maven.scm.plugin.version>
   </properties>
   
 </project>
