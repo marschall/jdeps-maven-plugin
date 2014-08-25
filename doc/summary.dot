@@ -1,0 +1,3 @@
+digraph "summary" {
+   "classes"                                          -> "rt.jar"[label="Full JRE\n",fontsize=9];
+}

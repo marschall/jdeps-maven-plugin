@@ -1,0 +1,19 @@
+digraph "classes" {
+    // Path: /Users/marschall/git/memoryfilesystem/target/classes
+   "com.github.marschall.memoryfilesystem"            -> "java.io (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.lang (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.lang.reflect (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.net (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.nio (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.nio.channels (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.nio.file (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.nio.file.attribute (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.nio.file.spi (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.text (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.util (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.util.concurrent (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.util.concurrent.atomic (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.util.concurrent.locks (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "java.util.regex (compact1)";
+   "com.github.marschall.memoryfilesystem"            -> "javax.annotation (Full JRE)";
+}

@@ -31,6 +31,27 @@ Then you can run it with:
 mvn jdeps:jdeps
 ```
 
+A sample output will look like this:
+```
+   com.github.marschall.memoryfilesystem (classes)
+      -> java.io                                            compact1
+      -> java.lang                                          compact1
+      -> java.lang.reflect                                  compact1
+      -> java.net                                           compact1
+      -> java.nio                                           compact1
+      -> java.nio.channels                                  compact1
+      -> java.nio.file                                      compact1
+      -> java.nio.file.attribute                            compact1
+      -> java.nio.file.spi                                  compact1
+      -> java.text                                          compact1
+      -> java.util                                          compact1
+      -> java.util.concurrent                               compact1
+      -> java.util.concurrent.atomic                        compact1
+      -> java.util.concurrent.locks                         compact1
+      -> java.util.regex                                    compact1
+      -> javax.annotation                                   Full JRE
+```
+
 Options
 -------
 Early versions of jdeps may not support all options.
