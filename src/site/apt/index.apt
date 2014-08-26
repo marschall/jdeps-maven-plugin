@@ -8,11 +8,11 @@
 
 jdeps Maven Plugin
 
- The jdeps Maven Plugin jdeps the Javadoc tool to report package dependencies for the specified project.
+ The jdeps Maven Plugin runs jdeps tool to report package dependencies for the specified project.
  For more information about the project, please refer to
  {{{https://github.com/marschall/jdeps-maven-plugin}GitHub page}}.
 
- When no configuration values are set, the plugin sets default values instead and then executes the jdeps tool.
+ When no configuration values are set, the plugin sets default values.
 
 * Goals Overview
 
