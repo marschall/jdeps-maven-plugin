@@ -190,6 +190,10 @@
         <configuration>
           <scmBranch>gh-pages</scmBranch>
           <pubScmUrl>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</pubScmUrl>
+          <content>${project.reporting.outputDirectory}</content>
+          <!-- 
+          <content>${project.build.directory}/site</content>
+           -->
         </configuration>
       </plugin>
       <plugin>
