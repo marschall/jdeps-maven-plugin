@@ -91,21 +91,15 @@
       <name>Nexus Release Repository</name>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-    <!-- http://maven.apache.org/plugins/maven-scm-publish-plugin/various-tips.html -->
-    <!-- scm:git:git@github.com:marschall/jdeps-maven-plugin.git -->
-    <!-- scm:git:ssh://git@github.com/marschall/jdeps-maven-plugin.git -->
-   <!--
-   <site>
+    <site>
       <id>gh-pages</id>
-      <url>scm:git:ssh://git@github.com/marschall/jdeps-maven-plugin.git</url>
+      <url>scm:git:git@github.marschall/jdeps-maven-plugin.git</url>
     </site>
-   -->
   </distributionManagement>
   
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-toolchains-plugin</artifactId>
         <executions>
           <execution>
@@ -155,8 +149,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${java.verion}</source>
+          <target>${java.verion}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -171,7 +165,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <links>
@@ -193,37 +186,19 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-publish-plugin</artifactId>
         <configuration>
           <scmBranch>gh-pages</scmBranch>
         </configuration>
       </plugin>
-<!--
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-scm</artifactId>
-              <version>2.6</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-api</artifactId>
-              <version>1.9.1</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.9.1</version>
-            </dependency>
-          </dependencies>
-        </plugin>
--->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <!-- We are deploying site using scm-publish, not site-deploy... -->
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
           <mavenExecutorId>forked-path</mavenExecutorId>
@@ -234,7 +209,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-toolchains-plugin</artifactId>
           <version>1.0</version>
         </plugin>
@@ -263,32 +237,26 @@
           <version>${maven.plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.5</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.5</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
           <version>${maven.scm.plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.4</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>2.7</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-publish-plugin</artifactId>
           <version>1.1</version>
         </plugin>
@@ -327,13 +295,6 @@
         </plugins>
       </build>
     </profile>
-    
-
-    <profile>
-      <id>create-site</id>
-      <build>
-      </build>
-    </profile>
   </profiles>
   
   <properties>
@@ -342,6 +303,7 @@
     <mavenVersion>3.0.5</mavenVersion>
     <maven.plugin.version>3.3</maven.plugin.version>
     <maven.scm.plugin.version>1.9.1</maven.scm.plugin.version>
+    <java.verion>1.7</java.verion>
   </properties>
   
 </project>
