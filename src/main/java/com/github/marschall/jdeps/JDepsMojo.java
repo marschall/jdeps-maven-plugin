@@ -45,12 +45,10 @@ public class JDepsMojo extends AbstractMojo {
   @Component
   private ToolchainManager toolchainManager;
 
-  //  @Parameter(name = "${project}", readonly = true)
-  @Component // deprecated for whatever reason but @Parameter doesn't work
+    @Parameter(defaultValue = "${project}", readonly = true) // @Component is deprecated
   private MavenProject project;
 
-  //  @Parameter(name = "${session}", readonly = true)
-  @Component // deprecated for whatever reason but @Parameter doesn't work
+    @Parameter(defaultValue = "${session}", readonly = true) // @Component is deprecated
   private MavenSession session;
 
   /**
