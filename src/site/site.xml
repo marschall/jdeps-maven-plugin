@@ -17,6 +17,7 @@
     <menu name="Project Information">
       <item name="Source" href="source-repository.html"/>
       <item name="Issue Tracking" href="issue-tracking.html"/>
+      <item name="License" href="license.html"/>
     </menu>
   </body>
 </project>
