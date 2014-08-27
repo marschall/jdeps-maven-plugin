@@ -27,6 +27,7 @@ import org.apache.maven.toolchain.ToolchainManager;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -35,20 +36,20 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Philippe Marschall
  */
 @Mojo(name = "jdeps",
-threadSafe = true,
-requiresProject = true,
-defaultPhase = LifecyclePhase.VERIFY,
-requiresDependencyResolution = ResolutionScope.COMPILE
-    )
+  threadSafe = true,
+  requiresProject = true,
+  defaultPhase = LifecyclePhase.VERIFY,
+  requiresDependencyResolution = ResolutionScope.COMPILE
+)
 public class JDepsMojo extends AbstractMojo {
 
   @Component
   private ToolchainManager toolchainManager;
 
-    @Parameter(defaultValue = "${project}", readonly = true) // @Component is deprecated
+  @Parameter(defaultValue = "${project}", readonly = true) // @Component is deprecated
   private MavenProject project;
 
-    @Parameter(defaultValue = "${session}", readonly = true) // @Component is deprecated
+  @Parameter(defaultValue = "${session}", readonly = true) // @Component is deprecated
   private MavenSession session;
 
   /**
@@ -62,7 +63,7 @@ public class JDepsMojo extends AbstractMojo {
    */
   @Parameter(defaultValue = "false", property = "jdeps.jdkInternals")
   private boolean jdkInternals;
-  
+
   /**
    * Restricts analysis to APIs.
    */
@@ -94,7 +95,7 @@ public class JDepsMojo extends AbstractMojo {
    */
   @Parameter(property = "jdeps.regex")
   private String regex;
-  
+
   /**
    * Restricts analysis to classes matching pattern.
    * This option filters the list of classes to be analyzed.
@@ -126,7 +127,7 @@ public class JDepsMojo extends AbstractMojo {
    */
   @Parameter(property = "jdeps.dotOutputDirectory")
   private File dotOutputDirectory;
-  
+
   @Parameter(defaultValue = "${project.build.outputDirectory}", readonly = true)
   private File outputDirectory;
 
@@ -154,7 +155,7 @@ public class JDepsMojo extends AbstractMojo {
     addVerboseArg(cmd);
     addVerboseLevelArg(cmd);
     addVersionArg(cmd);
-    
+
     addOutputArg(cmd);
 
     this.executeJDepsCommandLine(cmd);
@@ -205,14 +206,14 @@ public class JDepsMojo extends AbstractMojo {
       cmd.createArg().setValue(this.regex);
     }
   }
-  
+
   private void addInclude(Commandline cmd) {
     if (this.include != null) {
       cmd.createArg().setValue("-regex");
       cmd.createArg().setValue(this.include);
     }
   }
-  
+
   private void addDotOutput(Commandline cmd) {
     if (this.dotOutputDirectory != null) {
       cmd.createArg().setValue("-dotoutput");
@@ -231,7 +232,7 @@ public class JDepsMojo extends AbstractMojo {
   private void addJdkinternals(Commandline cmd) {
     addBooleanArg(this.jdkInternals, "-jdkinternals", cmd);
   }
-  
+
   private void addApiOnly(Commandline cmd) {
     addBooleanArg(this.apiOnly, "-apionly", cmd);
   }
@@ -266,20 +267,19 @@ public class JDepsMojo extends AbstractMojo {
    */
   private void executeJDepsCommandLine(Commandline cmd) throws MojoFailureException {
 
-    String cmdLine = null;
-
-    CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-    CommandLineUtils.StringStreamConsumer out = new CommandLineUtils.StringStreamConsumer();
+    StringStreamConsumer err = new StringStreamConsumer();
+    StringStreamConsumer out = new StringStreamConsumer();
     try {
       int exitCode = CommandLineUtils.executeCommandLine(cmd, out, err);
 
-      String output = StringUtils.isEmpty(out.getOutput()) ? null : '\n' + out.getOutput().trim();
+      String output = out.getOutput();
+      output = StringUtils.isEmpty(output) ? null : '\n' + output.trim();
       if (StringUtils.isNotEmpty(output)) {
         getLog().info(output);
       }
 
       if (exitCode != 0) {
-        cmdLine = CommandLineUtils.toString(cmd.getCommandline()).replaceAll("'", "");
+        String cmdLine = CommandLineUtils.toString(cmd.getCommandline()).replaceAll("'", "");
 
 
         StringBuilder msg = new StringBuilder("\nExit code: ");
@@ -292,8 +292,7 @@ public class JDepsMojo extends AbstractMojo {
 
         throw new MojoFailureException(msg.toString());
       }
-    }
-    catch (CommandLineException e) {
+    } catch (CommandLineException e) {
       throw new MojoFailureException("Unable to execute jdeps command: " + e.getMessage(), e);
     }
   }
@@ -318,7 +317,7 @@ public class JDepsMojo extends AbstractMojo {
     Path jdepsExe;
 
     // ----------------------------------------------------------------------
-    // The jdps executable is defined by the user
+    // The jdeps executable is defined by the user
     // ----------------------------------------------------------------------
     if (StringUtils.isNotEmpty(jdepsExecutable)) {
       jdepsExe = Paths.get(jdepsExecutable);
