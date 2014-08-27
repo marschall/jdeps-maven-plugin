@@ -1,5 +1,8 @@
 package com.github.marschall.jdeps;
 
+import static org.apache.maven.plugins.annotations.LifecyclePhase.VERIFY;
+import static org.apache.maven.plugins.annotations.ResolutionScope.COMPILE;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,10 +20,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.toolchain.Toolchain;
 import org.apache.maven.toolchain.ToolchainManager;
@@ -38,8 +39,8 @@ import org.codehaus.plexus.util.cli.Commandline;
 @Mojo(name = "jdeps",
   threadSafe = true,
   requiresProject = true,
-  defaultPhase = LifecyclePhase.VERIFY,
-  requiresDependencyResolution = ResolutionScope.COMPILE
+  defaultPhase = VERIFY,
+  requiresDependencyResolution = COMPILE
 )
 public class JDepsMojo extends AbstractMojo {
 
@@ -136,9 +137,16 @@ public class JDepsMojo extends AbstractMojo {
     String jExecutable;
     try {
       jExecutable = getJdepsExecutable();
-    } catch ( IOException e ) {
+    } catch (IOException e ) {
       throw new MojoFailureException("Unable to find jdeps command: " + e.getMessage(), e );
     }
+    Commandline cmd = buildCommandLine(jExecutable);
+
+    this.executeJDepsCommandLine(cmd);
+  }
+
+  private Commandline buildCommandLine(String jExecutable)
+      throws MojoFailureException {
     Commandline cmd = new Commandline();
     cmd.setExecutable(jExecutable);
 
@@ -157,8 +165,7 @@ public class JDepsMojo extends AbstractMojo {
     addVersionArg(cmd);
 
     addOutputArg(cmd);
-
-    this.executeJDepsCommandLine(cmd);
+    return cmd;
   }
 
   private void addPackagesArg(Commandline cmd) {
