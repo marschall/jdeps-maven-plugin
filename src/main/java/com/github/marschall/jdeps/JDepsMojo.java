@@ -60,19 +60,30 @@ public class JDepsMojo extends AbstractMojo {
   private boolean summary;
 
   /**
-   * Finds class-level dependences in JDK internal APIs.
+   * Finds class-level dependences on JDK internal APIs.
+   * 
+   * By default, it analyzes all classes and input files unless
+   * "include" option is specified. This option cannot be used with
+   * "packages", "regex" and "summary" options.
+   * <p>
+   * <strong>WARNING:</strong> JDK internal APIs may not be accessible
+   * in the next release.
    */
   @Parameter(defaultValue = "false", property = "jdeps.jdkInternals")
   private boolean jdkInternals;
 
   /**
-   * Restricts analysis to APIs.
+   * Restrict analysis to APIs.
+   * 
+   * i.e. dependences  from the signature of public and protected
+   * members of public classes including field type, method parameter
+   * types, returned type, checked exception types etc.
    */
   @Parameter(defaultValue = "false", property = "jdeps.apiOnly")
   private boolean apiOnly;
 
   /**
-   * Print additional information.
+   * Print all class level dependencies.
    */
   @Parameter(defaultValue = "false", property = "jdeps.verbose")
   private boolean verbose;
@@ -99,7 +110,10 @@ public class JDepsMojo extends AbstractMojo {
 
   /**
    * Restricts analysis to classes matching pattern.
-   * This option filters the list of classes to be analyzed.
+   * 
+   * This option filters the list of classes to be analyzed. It can be
+   * used together with "packages" or "regex" which apply pattern to
+   * the dependencies.
    */
   @Parameter(property = "jdeps.include")
   private String include;
