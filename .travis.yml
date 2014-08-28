@@ -2,5 +2,6 @@ language: java
 jdk:
   - openjdk7
   - oraclejdk7
-script:
+before_script:
   - echo $JAVA_HOME
+  - echo "<toolchains><toolchain><type>jdk</type><provides><version>1.7</version><vendor>generic</vendor></provides><configuration><jdkHome>${JAVA_HOME}</jdkHome></configuration></toolchain></toolchains>" >  ~/.m2/toolchains.xml
