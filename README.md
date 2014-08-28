@@ -1,4 +1,4 @@
-Maven jdeps Plugin
+Maven jdeps Plugin [![Build Status](https://travis-ci.org/marschall/jdeps-maven-plugin.svg?branch=master)](https://travis-ci.org/marschall/jdeps-maven-plugin)
 ==================
 
 Maven plugin that runs the Java 8 `jdeps` tool.
@@ -77,3 +77,8 @@ dotOutputDirectory      Destination directory for DOT file output.
 include                 Restricts analysis to classes matching pattern.
 apionly                 Restricts analysis to APIs.
 ```
+
+Building
+-------
+You need to have a ~/.m2/[toolchains.xml](http://maven.apache.org/guides/mini/guide-using-toolchains.html) that contains a JDK 1.7 link.
+
