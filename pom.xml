@@ -40,6 +40,14 @@
     <url>https://github.com/marschall/jdeps-maven-plugin/issues</url>
   </issueManagement>
   
+  <ciManagement>
+    <system>Travis CI</system>
+    <!--
+    Travis-ci, travis-ci, Travis-CI
+     -->
+    <url>https://travis-ci.org/marschall/jdeps-maven-plugin</url>
+  </ciManagement>
+  
   <scm>
     <connection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</developerConnection>
