@@ -99,7 +99,6 @@
   
   <build>
     <plugins>
-<!-- 
       <plugin>
         <artifactId>maven-toolchains-plugin</artifactId>
         <executions>
@@ -118,7 +117,6 @@
           </toolchains>
         </configuration>
       </plugin>
- -->
       <plugin>
         <artifactId>maven-plugin-plugin</artifactId>
         <configuration>
