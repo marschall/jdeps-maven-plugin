@@ -86,6 +86,19 @@
       <artifactId>plexus-utils</artifactId>
       <version>3.0.17</version>
     </dependency>
+    
+    <!-- report goal -->
+    <dependency>
+      <groupId>org.apache.maven.reporting</groupId>
+      <artifactId>maven-reporting-api</artifactId>
+      <version>3.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.reporting</groupId>
+      <artifactId>maven-reporting-impl</artifactId>
+      <version>2.1</version>
+    </dependency>
   </dependencies>
   
   <distributionManagement>

@@ -16,10 +16,14 @@ jdeps Maven Plugin
 
 * Goals Overview
 
-   The jdeps Plugin has only a single goal:
+   The jdeps Plugin has two goals:
 
    * {{{./jdeps-mojo.html}jdeps:jdeps}} runs the jdeps report for the project
    and prints the output to the command line.
+   It supports the parameters used by the tool.
+
+   * {{{./jdeps-report.html}jdeps:jdeps-report}} runs the jdeps report for the project
+   and prints the output to a project report page.
    It supports the parameters used by the tool.
 
    []
