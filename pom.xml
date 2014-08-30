@@ -3,7 +3,7 @@
 
   <groupId>com.github.marschall</groupId>
   <artifactId>jdeps-maven-plugin</artifactId>
-  <version>0.2.3-SNAPSHOT</version>
+  <version>0.3.0-SNAPSHOT</version>
   <inceptionYear>2013</inceptionYear>
   <url>https://github.com/marschall/maven-jdeps-plugin</url>
   <packaging>maven-plugin</packaging>
@@ -215,6 +215,14 @@
           <content>${project.build.directory}/site</content>
            -->
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>scm-publish</goal>
+            </goals>
+            <phase>site-deploy</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
