@@ -13,7 +13,7 @@ Usage
       <plugin>
         <groupId>com.github.marschall</groupId>
         <artifactId>jdeps-maven-plugin</artifactId>
-        <version>0.2.2</version>
+        <version>0.3.0</version>
         <!-- optionally any configuration -->
         <configuration>
           <profile>true</profile>
@@ -49,6 +49,25 @@ A sample output will look like this:
       -> java.util.regex                                    compact1
       -> javax.annotation                                   Full JRE
 ```
+
+Alternatively you can run the plugin as a reporting plugin. `target/site/jdeps-report.html`
+
+```xml
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.marschall</groupId>
+        <artifactId>jdeps-maven-plugin</artifactId>
+        <version>0.3.0</version>
+        <!-- optionally any configuration -->
+        <configuration>
+          <profile>true</profile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+```
+
 
 Options
 -------
