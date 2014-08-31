@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20140831" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Maven jdeps plugin &#x2013; jdeps:jdeps</title>
+    <title>Maven jdeps plugin &#x2013; jdeps:jdeps-report</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.3.1.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -132,15 +132,17 @@
             
   
     <div class="section">
-<h2><a name="jdeps:jdeps"></a>jdeps:jdeps</h2>
+<h2><a name="jdeps:jdeps-report"></a>jdeps:jdeps-report</h2>
+      
+<p><b>Note</b>:This goal should be used as a Maven report.</p>
       
 <p><b>Full name</b>:</p>
       
-<p>com.github.marschall:jdeps-maven-plugin:0.3.1:jdeps</p>
+<p>com.github.marschall:jdeps-maven-plugin:0.3.1:jdeps-report</p>
       
 <p><b>Description</b>:</p>
       
-<div>Runs the jdeps tool.</div>
+<div>Puts the output of the jdpes tool into a report page.</div>
       
 <p><b>Attributes</b>:</p>
       
@@ -152,7 +154,7 @@
         
 <li>The goal is thread-safe and supports parallel builds.</li>
         
-<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>verify</tt>.</li>
+<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: <tt>site</tt>.</li>
       </ul>
       
 <div class="section">
@@ -187,18 +189,6 @@ types etc.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property i
           
 <tr class="a">
             
-<td><b><a href="#dotOutputDirectory">dotOutputDirectory</a></b></td>
-            
-<td><tt>File</tt></td>
-            
-<td><tt>-</tt></td>
-            
-<td>Destination directory for DOT file output. Set to something like
-${project.reporting.outputDirectory}/jdeps<br /><b>User property is</b>: <tt>jdeps.dotOutputDirectory</tt>.</td>
-          </tr>
-          
-<tr class="b">
-            
 <td><b><a href="#include">include</a></b></td>
             
 <td><tt>String</tt></td>
@@ -210,7 +200,7 @@ the list of classes to be analyzed. It can be used together with
 &quot;packages&quot; or &quot;regex&quot; which apply pattern to the dependencies.<br /><b>User property is</b>: <tt>jdeps.include</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#jdkInternals">jdkInternals</a></b></td>
             
@@ -227,7 +217,7 @@ specified. This option cannot be used with &quot;packages&quot;, &quot;regex&quo
 accessible in the next release.</p><br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>jdeps.jdkInternals</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#packages">packages</a></b></td>
             
@@ -238,7 +228,7 @@ accessible in the next release.</p><br /><b>Default value is</b>: <tt>false</tt>
 <td>Restrict analysis to classes in these packages.<br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#profile">profile</a></b></td>
             
@@ -249,7 +239,7 @@ accessible in the next release.</p><br /><b>Default value is</b>: <tt>false</tt>
 <td>Show profile or the file containing a package.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>jdeps.profile</tt>.</td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td><b><a href="#recursive">recursive</a></b></td>
             
@@ -260,7 +250,7 @@ accessible in the next release.</p><br /><b>Default value is</b>: <tt>false</tt>
 <td>Recursively traverse all dependencies.<br /><b>Default value is</b>: <tt>false</tt>.<br /><b>User property is</b>: <tt>jdeps.recursive</tt>.</td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td><b><a href="#regex">regex</a></b></td>
             
@@ -270,6 +260,17 @@ accessible in the next release.</p><br /><b>Default value is</b>: <tt>false</tt>
             
 <td>Restrict analysis to packages matching pattern. (&quot;packages&quot; and
 &quot;regex&quot; are exclusive)<br /><b>User property is</b>: <tt>jdeps.regex</tt>.</td>
+          </tr>
+          
+<tr class="a">
+            
+<td><b><a href="#reportOutputDirectory">reportOutputDirectory</a></b></td>
+            
+<td><tt>File</tt></td>
+            
+<td><tt>-</tt></td>
+            
+<td>(no description)<br /><b>Default value is</b>: <tt>${project.reporting.outputDirectory}</tt>.<br /></td>
           </tr>
           
 <tr class="b">
@@ -338,19 +339,6 @@ types etc.</div>
 <li><b>User Property</b>: <tt>jdeps.apiOnly</tt></li>
           
 <li><b>Default</b>: <tt>false</tt></li>
-        </ul><hr />
-<p><b><a name="dotOutputDirectory">dotOutputDirectory</a>:</b></p>
-        
-<div>Destination directory for DOT file output. Set to something like
-${project.reporting.outputDirectory}/jdeps</div>
-        
-<ul>
-          
-<li><b>Type</b>: <tt>java.io.File</tt></li>
-          
-<li><b>Required</b>: <tt>No</tt></li>
-          
-<li><b>User Property</b>: <tt>jdeps.dotOutputDirectory</tt></li>
         </ul><hr />
 <p><b><a name="include">include</a>:</b></p>
         
@@ -436,6 +424,18 @@ accessible in the next release.</p></div>
 <li><b>Required</b>: <tt>No</tt></li>
           
 <li><b>User Property</b>: <tt>jdeps.regex</tt></li>
+        </ul><hr />
+<p><b><a name="reportOutputDirectory">reportOutputDirectory</a>:</b></p>
+        
+<div>(no description)</div>
+        
+<ul>
+          
+<li><b>Type</b>: <tt>java.io.File</tt></li>
+          
+<li><b>Required</b>: <tt>No</tt></li>
+          
+<li><b>Default</b>: <tt>${project.reporting.outputDirectory}</tt></li>
         </ul><hr />
 <p><b><a name="summary">summary</a>:</b></p>
         
