@@ -218,7 +218,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>scm-publish</goal>
+              <goal>publish-scm</goal>
             </goals>
             <phase>site-deploy</phase>
           </execution>
@@ -236,7 +236,9 @@
         <configuration>
           <mavenExecutorId>forked-path</mavenExecutorId>
           <arguments>-Pdeploy-to-sonatype-oss</arguments>
+          <!-- causes the tag to be named -SNAPSHOT
           <tag>${project.version}</tag>
+           -->
         </configuration>
       </plugin>
     </plugins>
