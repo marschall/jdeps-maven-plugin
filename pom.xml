@@ -114,7 +114,7 @@
     </repository>
     <site>
       <id>gh-pages</id>
-      <url>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</url>
+      <url>${project.scm.developerConnection}</url>
     </site>
   </distributionManagement>
   
@@ -189,10 +189,10 @@
         <configuration>
           <links>
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
-            <link>http://maven.apache.org/ref/3.0.5/maven-plugin-api/apidocs/</link>
-            <link>http://maven.apache.org/ref/3.0.5/maven-artifact/apidocs/</link>
-            <link>http://maven.apache.org/ref/3.0.5/maven-model/apidocs/</link>
-            <link>http://maven.apache.org/ref/3.0.5/maven-core/apidocs/</link>
+            <link>http://maven.apache.org/ref/${mavenVersion}/maven-plugin-api/apidocs/</link>
+            <link>http://maven.apache.org/ref/${mavenVersion}/maven-artifact/apidocs/</link>
+            <link>http://maven.apache.org/ref/${mavenVersion}/maven-model/apidocs/</link>
+            <link>http://maven.apache.org/ref/${mavenVersion}/maven-core/apidocs/</link>
           </links>
         </configuration>
         <executions>
@@ -209,7 +209,7 @@
         <artifactId>maven-scm-publish-plugin</artifactId>
         <configuration>
           <scmBranch>gh-pages</scmBranch>
-          <pubScmUrl>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</pubScmUrl>
+          <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
           <content>${project.reporting.outputDirectory}</content>
           <!-- 
           <content>${project.build.directory}/site</content>
@@ -398,7 +398,7 @@
   <properties>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-    <mavenVersion>3.0.5</mavenVersion>
+    <mavenVersion>3.2.3</mavenVersion>
     <maven.plugin.version>3.3</maven.plugin.version>
     <maven.scm.plugin.version>1.9.1</maven.scm.plugin.version>
     <java.verion>1.7</java.verion>
