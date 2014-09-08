@@ -49,7 +49,7 @@
   </ciManagement>
   
   <scm>
-    <connection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</connection>
+    <connection>scm:git:https://github.com/marschall/jdeps-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</developerConnection>
     <url>${project.url}</url>
     <tag>HEAD</tag>
