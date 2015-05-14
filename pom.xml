@@ -3,7 +3,7 @@
 
   <groupId>com.github.marschall</groupId>
   <artifactId>jdeps-maven-plugin</artifactId>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.4.1-SNAPSHOT</version>
   <inceptionYear>2013</inceptionYear>
   <url>https://github.com/marschall/jdeps-maven-plugin/</url>
   <packaging>maven-plugin</packaging>
