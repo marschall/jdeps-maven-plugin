@@ -79,12 +79,12 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.3.2</version>
+      <version>3.4</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.17</version>
+      <version>3.0.22</version>
     </dependency>
     
     <!-- report goal -->
@@ -97,7 +97,7 @@
     <dependency>
       <groupId>org.apache.maven.reporting</groupId>
       <artifactId>maven-reporting-impl</artifactId>
-      <version>2.2</version>
+      <version>2.3</version>
     </dependency>
   </dependencies>
   
@@ -246,7 +246,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-toolchains-plugin</artifactId>
-          <version>1.0</version>
+          <version>1.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -262,7 +262,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.1</version>
+          <version>2.8.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -282,7 +282,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>${maven.scm.plugin.version}</version>
+          <version>1.9.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
@@ -290,7 +290,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.7</version>
+          <version>2.8</version>
         </plugin>
         <plugin>
           <artifactId>maven-scm-publish-plugin</artifactId>
@@ -302,7 +302,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.5.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -310,7 +310,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
+          <version>2.17</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
@@ -414,9 +414,8 @@
   <properties>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-    <mavenVersion>3.2.3</mavenVersion>
-    <maven.plugin.version>3.3</maven.plugin.version>
-    <maven.scm.plugin.version>1.9.1</maven.scm.plugin.version>
+    <mavenVersion>3.3.3</mavenVersion>
+    <maven.plugin.version>3.4</maven.plugin.version>
     <java.verion>1.7</java.verion>
   </properties>
   
