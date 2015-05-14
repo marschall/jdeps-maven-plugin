@@ -82,6 +82,11 @@ package=<pkg name>      Restrict analysis to classes in this package
                         (may be given multiple times)
 regex=<regex>           Restrict analysis to packages matching pattern
                         (package and regex are exclusive)
+filter=<regex>          Filter dependences matching the given pattern
+filter:package          Filter dependences within the same package (default)
+filter:archive          Filter dependences within the same archive
+filter:none             No -filter:package and -filter:archive filtering
+                        Filtering specified via the -filter option still applies.
 profile                 Show profile or the file containing a package
 recursive               Recursively traverse all dependencies
 version                 Version information
