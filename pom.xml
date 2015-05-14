@@ -12,11 +12,11 @@
   <description>
     Runs the jdeps dependency analysis tool.
   </description>
-  
+
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
-  
+
   <developers>
     <developer>
       <id>marschall</id>
@@ -26,7 +26,7 @@
       <url>https://github.com/marschall</url>
     </developer>
   </developers>
-  
+
   <licenses>
     <license>
       <name>MIT</name>
@@ -34,20 +34,17 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/marschall/jdeps-maven-plugin/issues</url>
   </issueManagement>
-  
+
   <ciManagement>
     <system>Travis CI</system>
-    <!--
-    http://jira.codehaus.org/browse/MPIR-298
-     -->
     <url>https://travis-ci.org/marschall/jdeps-maven-plugin</url>
   </ciManagement>
-  
+
   <scm>
     <connection>scm:git:https://github.com/marschall/jdeps-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/jdeps-maven-plugin.git</developerConnection>
@@ -86,7 +83,6 @@
       <artifactId>plexus-utils</artifactId>
       <version>3.0.22</version>
     </dependency>
-    
     <!-- report goal -->
     <dependency>
       <groupId>org.apache.maven.reporting</groupId>
@@ -100,7 +96,7 @@
       <version>2.3</version>
     </dependency>
   </dependencies>
-  
+
   <distributionManagement>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
@@ -117,7 +113,7 @@
       <url>${project.scm.developerConnection}</url>
     </site>
   </distributionManagement>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -354,7 +350,7 @@
       </plugins>
     </pluginManagement>
   </build>
-  
+
   <reporting>
     <plugins>
       <plugin>
@@ -364,7 +360,7 @@
       </plugin>
     </plugins>
   </reporting>
-  
+
   <profiles>
     <profile>
       <id>deploy-to-sonatype-oss</id>
@@ -410,13 +406,13 @@
       </build>
     </profile>
   </profiles>
-  
+
   <properties>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <mavenVersion>3.3.3</mavenVersion>
-    <maven.plugin.version>3.4</maven.plugin.version>
+    <maven.plugin.version>3.3</maven.plugin.version>
     <java.verion>1.7</java.verion>
   </properties>
-  
+
 </project>
