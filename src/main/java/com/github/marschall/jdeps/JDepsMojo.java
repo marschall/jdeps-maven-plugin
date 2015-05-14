@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * Runs the jdeps tool.
- * 
+ *
  * @author Philippe Marschall
  */
 @Mojo(name = "jdeps",
@@ -61,7 +61,7 @@ public class JDepsMojo extends AbstractMojo {
 
   /**
    * Finds class-level dependences on JDK internal APIs.
-   * 
+   *
    * By default, it analyzes all classes and input files unless
    * "include" option is specified. This option cannot be used with
    * "packages", "regex" and "summary" options.
@@ -74,7 +74,7 @@ public class JDepsMojo extends AbstractMojo {
 
   /**
    * Restrict analysis to APIs.
-   * 
+   *
    * i.e. dependences  from the signature of public and protected
    * members of public classes including field type, method parameter
    * types, returned type, checked exception types etc.
@@ -109,8 +109,29 @@ public class JDepsMojo extends AbstractMojo {
   private String regex;
 
   /**
+   * Filter dependences matching the given pattern.
+   */
+  @Parameter(property = "jdeps.filter")
+  private String filter;
+
+  /**
+   * Filter mode. Options
+   *
+   * <dl>
+   *  <dt>package</dt>
+   *  <dd>Filter dependences within the same package (default)</dd>
+   *  <dt>archive</dt>
+   *  <dd>Filter dependences within the same archive</dd>
+   *  <dt>none</dt>
+   *  <dd>No package and archive filtering. Filtering specified via the filter option still applies.</dd>
+   * </dl>
+   */
+  @Parameter(property = "jdeps.filterMode")
+  private String filterMode;
+
+  /**
    * Restricts analysis to classes matching pattern.
-   * 
+   *
    * This option filters the list of classes to be analyzed. It can be
    * used together with "packages" or "regex" which apply pattern to
    * the dependencies.
@@ -159,8 +180,7 @@ public class JDepsMojo extends AbstractMojo {
     this.executeJDepsCommandLine(cmd);
   }
 
-  private Commandline buildCommandLine(String jExecutable)
-      throws MojoFailureException {
+  private Commandline buildCommandLine(String jExecutable) throws MojoFailureException {
     Commandline cmd = new Commandline();
     cmd.setExecutable(jExecutable);
 
@@ -176,6 +196,8 @@ public class JDepsMojo extends AbstractMojo {
     addSummaryArg(cmd);
     addVerboseArg(cmd);
     addVerboseLevelArg(cmd);
+    addFilterArg(cmd);
+    addFilterModeArg(cmd);
     addVersionArg(cmd);
 
     addOutputArg(cmd);
@@ -264,6 +286,32 @@ public class JDepsMojo extends AbstractMojo {
 
   private void addRecursiveArg(Commandline cmd) {
     addBooleanArg(this.recursive, "-recursive", cmd);
+  }
+
+  private void addFilterArg(Commandline cmd) {
+    if (this.filter != null) {
+      cmd.createArg().setValue("-filter");
+      cmd.createArg().setValue(this.filter);
+    }
+  }
+
+  private void addFilterModeArg(Commandline cmd) {
+    if (this.filterMode != null) {
+      switch (this.filterMode) {
+        case "package":
+          cmd.createArg().setValue("-filter:package");
+          break;
+        case "archive":
+          cmd.createArg().setValue("-filter:archive");
+          break;
+        case "none":
+          cmd.createArg().setValue("-filter:none");
+          break;
+        default:
+          // throw an exception?
+          break;
+      }
+    }
   }
 
   private void addVersionArg(Commandline cmd) {
