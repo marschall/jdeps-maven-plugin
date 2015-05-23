@@ -154,12 +154,6 @@
               <goal>helpmojo</goal>
             </goals>
           </execution>
-          <execution>
-            <id>generate-descriptor</id>
-            <goals>
-              <goal>descriptor</goal>
-            </goals>
-          </execution>
         </executions>
       </plugin>
       <plugin>
