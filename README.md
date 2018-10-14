@@ -13,7 +13,7 @@ Usage
       <plugin>
         <groupId>com.github.marschall</groupId>
         <artifactId>jdeps-maven-plugin</artifactId>
-        <version>0.4.0</version>
+        <version>0.5.1</version>
         <!-- optionally any configuration -->
         <configuration>
           <profile>true</profile>
@@ -58,7 +58,7 @@ Alternatively you can run the plugin as a reporting plugin. `target/site/jdeps-r
       <plugin>
         <groupId>com.github.marschall</groupId>
         <artifactId>jdeps-maven-plugin</artifactId>
-        <version>0.4.0</version>
+        <version>0.5.1</version>
         <!-- optionally any configuration -->
         <configuration>
           <profile>true</profile>
