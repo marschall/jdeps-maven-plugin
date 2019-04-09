@@ -3,7 +3,7 @@ Maven jdeps Plugin [![Build Status](https://travis-ci.org/marschall/jdeps-maven-
 
 Maven plugin that runs the Java 8 `jdeps` tool.
 
-For more information check out the generated [plugin page](http://marschall.github.io/jdeps-maven-plugin/) and the [jdeps documentation](https://docs.oracle.com/en/java/javase/11/tools/jdeps.html).
+For more information check out the generated [plugin page](https://marschall.github.io/jdeps-maven-plugin/) and the [jdeps documentation](https://docs.oracle.com/en/java/javase/11/tools/jdeps.html).
 
 Usage
 -----
@@ -104,5 +104,5 @@ apionly                 Restricts analysis to APIs.
 
 Building
 -------
-You need to have a ~/.m2/[toolchains.xml](http://maven.apache.org/guides/mini/guide-using-toolchains.html) that contains a JDK 1.7 link.
+You need to have a ~/.m2/[toolchains.xml](https://maven.apache.org/guides/mini/guide-using-toolchains.html) that contains a JDK 1.7 link.
 
